@@ -1,17 +1,21 @@
 package mjz.springframework.spring5mvcrest.bootstrap;
 
 import mjz.springframework.spring5mvcrest.domain.Category;
+import mjz.springframework.spring5mvcrest.domain.Customer;
 import mjz.springframework.spring5mvcrest.repositories.CategoryRepository;
+import mjz.springframework.spring5mvcrest.repositories.CustomerRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 @Component
 public class bootstrap implements CommandLineRunner {
 
-    private CategoryRepository categoryRepository;
+    private final CategoryRepository categoryRepository;
+    private final CustomerRepository customerRepository;
 
-    public bootstrap(CategoryRepository categoryRepository) {
+    public bootstrap(CategoryRepository categoryRepository, CustomerRepository customerRepository) {
         this.categoryRepository = categoryRepository;
+        this.customerRepository = customerRepository;
     }
 
     // Loading data using Spring Events (A context initialization event)
@@ -21,6 +25,12 @@ public class bootstrap implements CommandLineRunner {
     // passed into the JVM also get picked up, but here we only to load some classes
     @Override
     public void run(String... args) throws Exception {
+
+        loadCategories();
+        loadCustomers();
+    }
+
+    private void loadCategories(){
 
         Category fruits = new Category();
         fruits.setName("Fruits");
@@ -43,6 +53,26 @@ public class bootstrap implements CommandLineRunner {
         categoryRepository.save(exotic);
         categoryRepository.save(nuts);
 
-        System.out.println("Data Loaded: "+ categoryRepository.count());
+        System.out.println("Categories Loaded: "+ categoryRepository.count());
+
     }
+
+    private void loadCustomers(){
+        Customer customerA = new Customer();
+        customerA.setId(1L);
+        customerA.setFirstname("Majid");
+        customerA.setLastname("Xoqi");
+
+        Customer customerB = new Customer();
+        customerB.setId(2L);
+        customerB.setFirstname("Ali");
+        customerB.setLastname("Karimi");
+
+        customerRepository.save(customerA);
+        customerRepository.save(customerB);
+
+        System.out.println("Customers Loaded: "+ customerRepository.count());
+
+    }
+
 }
