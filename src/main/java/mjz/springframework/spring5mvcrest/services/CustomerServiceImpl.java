@@ -24,7 +24,12 @@ public class CustomerServiceImpl implements CustomerService {
     public List<CustomerDTO> getAllCustomers() {
         return customerRepository.findAll()
                 .stream()
-                .map(customerMapper::customerToCustomerDTO)
+                //.map(customerMapper::customerToCustomerDTO)
+                .map(customer -> {
+                    CustomerDTO customerDTO = customerMapper.customerToCustomerDTO(customer);
+                    customerDTO.setCustomerUrl("/api/v1/customer/" + customer.getId());
+                    return customerDTO;
+                })
                 .collect(Collectors.toList());
     }
 

@@ -45,14 +45,16 @@ class CustomerControllerTest {
     @Test
     public void getCustomersListTest() throws Exception{
         CustomerDTO customer1 = new CustomerDTO();
-        customer1.setId(1L);
+        //customer1.setId(1L);
         customer1.setFirstname("MJ");
         customer1.setLastname("Z");
+        customer1.setCustomerUrl("/api/v1/customer/1");
 
         CustomerDTO customer2 = new CustomerDTO();
-        customer1.setId(2L);
-        customer1.setFirstname("A");
-        customer1.setLastname("K");
+        //customer1.setId(2L);
+        customer2.setFirstname("A");
+        customer2.setLastname("K");
+        customer2.setCustomerUrl("/api/v1/customer/2");
 
         when(customerService.getAllCustomers()).thenReturn(Arrays.asList(customer1, customer2));
 
@@ -68,9 +70,10 @@ class CustomerControllerTest {
     public void getCustomerByIdTest() throws Exception{
 
         CustomerDTO customer1 = new CustomerDTO();
-        customer1.setId(1L);
+        //customer1.setId(1L);
         customer1.setFirstname("MJ");
         customer1.setLastname("Z");
+        customer1.setCustomerUrl("/api/v1/customer/1");
 
         when(customerService.getCustomerById(anyLong())).thenReturn(customer1);
 
