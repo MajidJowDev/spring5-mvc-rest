@@ -47,6 +47,15 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <!-- MapStruct is a code generator for mapping beans in java, and reduces coding for code conversions,
+        a common use case is to expose API data using DTOs (although we can expose the domain object directly over the RESTful interface,
+         but in enterprise project as the projects get larger and complicated, we can no longer expose the data on the REST interface )
+        We declare interfaces for MapStrut then MapStrut is going to use that data to build classes at runtime for us-->
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>1.5.2.Final</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -61,6 +70,39 @@
                             <artifactId>lombok</artifactId>
                         </exclude>
                     </excludes>
+                </configuration>
+            </plugin>
+<!--            setting up compiler plugin with annotation processors, if we do not specify any annotation processer,
+it's going to get anything that it finds in the classpath-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.10.1</version>
+                <configuration>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.mapstruct</groupId>
+                            <artifactId>mapstruct-processor</artifactId>
+<!--                            <version>${org.mapstruct.version}</version>-->
+                            <version>1.5.2.Final</version>
+                        </path>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
+                        </path>
+                        <dependency>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok-mapstruct-binding</artifactId>
+                            <version>0.2.0</version>
+                        </dependency>
+                    </annotationProcessorPaths>
+<!--                    added this to configure MapStruct Compiler arguments to pick the Mapper objects as spring component-->
+                    <compilerArgs>
+                        <compilerArg>
+                            -Amapstruct.defaultComponentModel=spring
+                        </compilerArg>
+                    </compilerArgs>
                 </configuration>
             </plugin>
         </plugins>
