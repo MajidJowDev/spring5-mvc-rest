@@ -44,5 +44,20 @@ public class CustomerController {
                 ,HttpStatus.OK);
     }
 
+    /*
+    the difference between PATCH and PUT is that if we do not add some of the json attribute in requestBody
+    in a PUT Request, all json attributes that are not added to the requestBody (json Body) will be set to null
+    for example if we send
+    {"firstname": "Ali"} then the object values will be set to {"firstname": "Ali", "lastname": null}
+    whereas
+    in a PATCH Request if we just add firstname as json attrib in our json body the other attributes of the object will not be set to null
+    and keep their previous value
+    send {"firstname": "Ali"} as request body -> modified object: {"firstname": "Ali", "lastname": "sss"}
+     */
+    @PatchMapping({"/{id}"})
+    public ResponseEntity<CustomerDTO> patchCustomer(@PathVariable Long id, @RequestBody CustomerDTO customerDTO){
+        return new ResponseEntity<CustomerDTO>(customerService.patchCustomer(id, customerDTO),
+                HttpStatus.OK);
+    }
 
 }
