@@ -8,7 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-@Controller
+//@Controller
+@RestController // uses ResponseBody to return the response in requested type (XML, JSON, etc)
 //@RequestMapping("/api/v1/customers")
 @RequestMapping(CustomerController.BASE_URL)
 public class CustomerController {
@@ -22,29 +23,29 @@ public class CustomerController {
     }
 
     @GetMapping
-    public ResponseEntity<CustomerListDTO> getAllCustomers(){
-        return new ResponseEntity<CustomerListDTO>(
-                new CustomerListDTO(customerService.getAllCustomers()), HttpStatus.OK) ;
+    @ResponseStatus(HttpStatus.OK)
+    public CustomerListDTO getAllCustomers(){
+        return new CustomerListDTO(customerService.getAllCustomers());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CustomerDTO> getCustomerById(@PathVariable Long id){
-
-        return new ResponseEntity<CustomerDTO>(customerService.getCustomerById(id), HttpStatus.OK);
+    @ResponseStatus(HttpStatus.OK)
+    public CustomerDTO getCustomerById(@PathVariable Long id){
+        return customerService.getCustomerById(id);
     }
 
     @PostMapping
-    public ResponseEntity<CustomerDTO> createNewCustomer(@RequestBody CustomerDTO customerDTO){
+    @ResponseStatus(HttpStatus.CREATED)
+    public CustomerDTO createNewCustomer(@RequestBody CustomerDTO customerDTO){
         // we want the object bound automatically so we use @RequestBody which tells Spring to check and parse
         // the body of the request and try to create a customerDTO out of that
-        return new ResponseEntity<CustomerDTO>(customerService.createNewCustomer(customerDTO)
-                , HttpStatus.CREATED);
+        return customerService.createNewCustomer(customerDTO);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CustomerDTO> updateCustomer(@PathVariable Long id, @RequestBody CustomerDTO customerDTO){
-        return new ResponseEntity<CustomerDTO>(customerService.saveCustomerByDTO(id, customerDTO)
-                ,HttpStatus.OK);
+    @ResponseStatus(HttpStatus.OK)
+    public CustomerDTO updateCustomer(@PathVariable Long id, @RequestBody CustomerDTO customerDTO){
+        return customerService.saveCustomerByDTO(id, customerDTO);
     }
 
     /*
@@ -58,11 +59,19 @@ public class CustomerController {
     send {"firstname": "Ali"} as request body -> modified object: {"firstname": "Ali", "lastname": "sss"}
      */
     @PatchMapping({"/{id}"})
-    public ResponseEntity<CustomerDTO> patchCustomer(@PathVariable Long id, @RequestBody CustomerDTO customerDTO){
-        return new ResponseEntity<CustomerDTO>(customerService.patchCustomer(id, customerDTO),
-                HttpStatus.OK);
+    @ResponseStatus(HttpStatus.OK)
+    public CustomerDTO patchCustomer(@PathVariable Long id, @RequestBody CustomerDTO customerDTO){
+        return customerService.patchCustomer(id, customerDTO);
     }
 
+    @DeleteMapping({"/{id}"})
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteCustomer(@PathVariable Long id){
+
+        customerService.deleteCustomerById(id);
+    }
+
+    /* // Spring 3 old way
     @DeleteMapping({"/{id}"})
     public ResponseEntity<Void> deleteCustomer(@PathVariable Long id){
 
@@ -70,5 +79,6 @@ public class CustomerController {
 
         return new ResponseEntity<Void>(HttpStatus.OK);
     }
+    */
 
 }

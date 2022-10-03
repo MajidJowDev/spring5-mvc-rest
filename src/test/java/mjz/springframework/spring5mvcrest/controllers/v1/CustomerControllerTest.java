@@ -70,8 +70,6 @@ class CustomerControllerTest extends AbstractRestControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.customers", hasSize(2)));
-
-
     }
 
     @Test
