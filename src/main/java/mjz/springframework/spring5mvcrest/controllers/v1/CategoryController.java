@@ -11,8 +11,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/api/v1/categories/")
+//@RequestMapping("/api/v1/categories/")
+//@RequestMapping("${some.url.value}") // we can also use this method to define Base Urls in application properties
+// so that they can be loaded when spring context is loading
+@RequestMapping(CategoryController.BASE_URL)
 public class CategoryController {
+
+    public static final String BASE_URL = "/api/v1/categories";
 
     private final CategoryService categoryService;
 
