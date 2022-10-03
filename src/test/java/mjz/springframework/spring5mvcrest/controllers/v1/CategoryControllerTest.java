@@ -1,7 +1,9 @@
 package mjz.springframework.spring5mvcrest.controllers.v1;
 
 import mjz.springframework.spring5mvcrest.api.v1.model.CategoryDTO;
+import mjz.springframework.spring5mvcrest.controllers.RestResponseEntityExceptionHandler;
 import mjz.springframework.spring5mvcrest.services.CategoryService;
+import mjz.springframework.spring5mvcrest.services.ResourceNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -44,7 +46,9 @@ class CategoryControllerTest {
         // we can remove this line since we used @InjectMocks, so we no longer need to build the controller this way
         //categoryController = new CategoryController(categoryService);
 
-        mockMvc = MockMvcBuilders.standaloneSetup(categoryController).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(categoryController)
+                .setControllerAdvice(new RestResponseEntityExceptionHandler())
+                .build();
     }
 
     @Test
@@ -81,5 +85,15 @@ class CategoryControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.name", equalTo(NAME)));
+    }
+
+    @Test
+    public void testGetByNameNotFound() throws Exception {
+
+        when(categoryService.getCategoryByName(anyString())).thenThrow(ResourceNotFoundException.class);
+
+        mockMvc.perform(MockMvcRequestBuilders.get(CategoryController.BASE_URL + "/Foo")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
     }
 }
