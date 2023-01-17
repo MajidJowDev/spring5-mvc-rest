@@ -1,5 +1,7 @@
 package mjz.springframework.spring5mvcrest.controllers.v1;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import mjz.springframework.spring5mvcrest.api.v1.model.CustomerDTO;
 import mjz.springframework.spring5mvcrest.api.v1.model.CustomerListDTO;
 import mjz.springframework.spring5mvcrest.services.CustomerService;
@@ -8,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+@Api(description = "This is my customer controller")
 //@Controller
 @RestController // uses ResponseBody to return the response in requested type (XML, JSON, etc)
 //@RequestMapping("/api/v1/customers")
@@ -22,6 +25,7 @@ public class CustomerController {
         this.customerService = customerService;
     }
 
+    @ApiOperation(value = "This will get a list of customers.", notes = "There are some notes about the API.")
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public CustomerListDTO getAllCustomers(){
