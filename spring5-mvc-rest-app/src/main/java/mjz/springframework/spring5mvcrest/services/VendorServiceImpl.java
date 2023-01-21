@@ -1,10 +1,8 @@
 package mjz.springframework.spring5mvcrest.services;
 
 import mjz.springframework.spring5mvcrest.api.v1.mapper.VendorMapper;
-import mjz.springframework.spring5mvcrest.api.v1.model.CustomerDTO;
 import mjz.springframework.spring5mvcrest.api.v1.model.VendorDTO;
 import mjz.springframework.spring5mvcrest.controllers.v1.VendorController;
-import mjz.springframework.spring5mvcrest.domain.Customer;
 import mjz.springframework.spring5mvcrest.domain.Vendor;
 import mjz.springframework.spring5mvcrest.repositories.VendorRepository;
 import org.springframework.stereotype.Service;

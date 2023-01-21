@@ -1,9 +1,7 @@
 package mjz.springframework.spring5mvcrest.controllers.v1;
 
-import com.jayway.jsonpath.JsonPath;
 import mjz.springframework.spring5mvcrest.api.v1.model.CustomerDTO;
 import mjz.springframework.spring5mvcrest.controllers.RestResponseEntityExceptionHandler;
-import mjz.springframework.spring5mvcrest.domain.Customer;
 import mjz.springframework.spring5mvcrest.services.CustomerService;
 import mjz.springframework.spring5mvcrest.services.ResourceNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,14 +11,12 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.Arrays;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.verify;
@@ -66,7 +62,7 @@ class CustomerControllerTest extends AbstractRestControllerTest {
 
         when(customerService.getAllCustomers()).thenReturn(Arrays.asList(customer1, customer2));
 
-        mockMvc.perform(MockMvcRequestBuilders.get(CustomerController.BASE_URL)
+        mockMvc.perform(get(CustomerController.BASE_URL)
                         .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -84,7 +80,7 @@ class CustomerControllerTest extends AbstractRestControllerTest {
 
         when(customerService.getCustomerById(anyLong())).thenReturn(customer1);
 
-        mockMvc.perform(MockMvcRequestBuilders.get(CustomerController.BASE_URL + "/1")
+        mockMvc.perform(get(CustomerController.BASE_URL + "/1")
                         .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED))
                 .andExpect(status().isOk())
@@ -107,7 +103,7 @@ class CustomerControllerTest extends AbstractRestControllerTest {
         when(customerService.createNewCustomer(customerDTO)).thenReturn(returnDto);
 
         //when-then
-        mockMvc.perform(MockMvcRequestBuilders.post(CustomerController.BASE_URL)
+        mockMvc.perform(post(CustomerController.BASE_URL)
                         .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(customerDTO)))

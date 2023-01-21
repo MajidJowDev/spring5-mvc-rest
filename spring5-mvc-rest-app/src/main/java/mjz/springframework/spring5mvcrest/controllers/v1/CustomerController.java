@@ -6,8 +6,6 @@ import mjz.springframework.spring5mvcrest.api.v1.model.CustomerDTO;
 import mjz.springframework.spring5mvcrest.api.v1.model.CustomerListDTO;
 import mjz.springframework.spring5mvcrest.services.CustomerService;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @Api(description = "This is my customer controller")

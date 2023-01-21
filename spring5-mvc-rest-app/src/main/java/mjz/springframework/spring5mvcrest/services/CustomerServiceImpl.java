@@ -5,7 +5,6 @@ import mjz.springframework.spring5mvcrest.api.v1.model.CustomerDTO;
 import mjz.springframework.spring5mvcrest.controllers.v1.CustomerController;
 import mjz.springframework.spring5mvcrest.domain.Customer;
 import mjz.springframework.spring5mvcrest.repositories.CustomerRepository;
-import org.apache.el.stream.Optional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

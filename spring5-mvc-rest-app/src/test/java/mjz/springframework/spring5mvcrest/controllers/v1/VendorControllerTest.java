@@ -18,7 +18,6 @@ import java.util.Arrays;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.verify;
@@ -59,7 +58,7 @@ class VendorControllerTest extends AbstractRestControllerTest {
 
         when(vendorService.getAllVendors()).thenReturn(Arrays.asList(vendor1, vendor2));
 
-        mockMvc.perform(MockMvcRequestBuilders.get(VendorController.BASE_URL)
+        mockMvc.perform(get(VendorController.BASE_URL)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -75,7 +74,7 @@ class VendorControllerTest extends AbstractRestControllerTest {
 
         when(vendorService.getVendorById(anyLong())).thenReturn(vendor1);
 
-        mockMvc.perform(MockMvcRequestBuilders.get(VendorController.BASE_URL + "/1")
+        mockMvc.perform(get(VendorController.BASE_URL + "/1")
                         .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
