@@ -12,5 +12,63 @@
     <artifactId>rest-model</artifactId>
     <name>spring5-mvc-model</name>
 
+<!--    Because the JAXB is removed from JAVA 11, so We have to add these dependencies in order to make JAXB work -->
+<!--
+https://stackoverflow.com/questions/52502189/java-11-package-javax-xml-bind-does-not-exist
+ According to the release-notes, Java 11 removed the Java EE modules:
 
+java.xml.bind (JAXB) - REMOVED
+Java 8 - OK
+Java 9 - DEPRECATED
+Java 10 - DEPRECATED
+Java 11 - REMOVED
+See JEP 320 for more info.
+
+You can fix the issue by using alternate versions of the Java EE technologies. Simply add Maven dependencies that contain the classes you need-->
+    <dependencies>
+        <dependency>
+            <groupId>javax.xml.bind</groupId>
+            <artifactId>jaxb-api</artifactId>
+            <version>2.3.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-core</artifactId>
+            <version>2.3.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.xml.bind</groupId>
+            <artifactId>jaxb-impl</artifactId>
+            <version>2.3.0</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+<!--            Added this plugin from mojohaus.org to enable JAXB (XJC plugin) to generate Java code withing provided package-->
+            <!--JAXB Generates the JAVA classes from the XSD in the resources path if we call "package", in the targer->generated-sources->jaxb path-->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>jaxb2-maven-plugin</artifactId>
+                <version>2.5.0</version>
+                <executions>
+                    <execution>
+                        <id>xjc</id>
+                        <goals>
+                            <goal>xjc</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <!-- The package of your generated sources -->
+<!--                    The generated sources by "package" command wil be stored in this runtime directory (Target folder)-->
+                    <packageName>mjz.springframework.model</packageName>
+                    <sources>
+<!--                        The Path that Jaxb reads/parses the XSD files and convert them to java clasess-->
+                        <source>src/main/resources/xsd</source>
+                    </sources>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
