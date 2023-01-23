@@ -1,6 +1,6 @@
 <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:element name="CustomerListDTO" type="CustomerListDTO"/>
-    <xs:complexType name="Customer">
+    <xs:complexType name="CustomerDTO">
         <xs:sequence>
             <xs:element type="xs:string" name="firstname" minOccurs="0"/>
             <xs:element type="xs:string" name="lastname" minOccurs="0"/>
@@ -9,8 +9,10 @@
     </xs:complexType>
     <xs:complexType name="CustomerListDTO">
         <xs:sequence>
-            <xs:element type="Customer" name="customers" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element type="CustomerDTO" name="customers" maxOccurs="unbounded" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
 </xs:schema>
 <!--JAXB Generates the JAVA classes from this XSD if we call "package", in the targer->generated-sources->jaxb path-->
+<!--if we want to use XSD for generating the DTO classes it's better to use this method from beginning instead of manually creating
+ the DTO Classes to avoid encountering errors caused by changing class and property dependencies-->
